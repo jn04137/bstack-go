@@ -1,0 +1,30 @@
+{{ define "layout" }}
+<!DOCTYPE html>
+<html>
+	<head>
+		<link href="/static/output.css" rel="stylesheet">
+		<script type="text/javascript" src="/static/main.js"></script>
+	</head>
+	<body class="flex flex-col justify-between min-h-screen">
+		{{ template "navbar" . }}
+		<div class="grow px-4 pt-6">
+			{{ block "content" . }}{{ end }}
+		</div>
+		{{ template "footer" . }}
+	</body>
+</html>
+{{ end }}
+
+{{ define "navbar" }}
+<div class="px-4 py-1.5 shadow">
+	<div>
+		<h1 class="text-2xl font-bold">bstack</h1>
+	</div>
+</div>
+{{ end }}
+
+{{ define "footer" }}
+<footer class="border-t px-4 py-1">
+	Created by Jonathan Nguyen
+</footer>
+{{ end }}

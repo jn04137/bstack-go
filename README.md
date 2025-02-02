@@ -13,9 +13,9 @@ creation for a long time. I hope that this will be the final implementation.
 Fields that need to be populated for the application to run
 
 
-```
-DB_USER=some_username
-DB_PASSWORD=some_password
-DB_HOST_POST=xxx.xxx.xxx.xxx:xxxx
-DB_NAME=name_of_database
+```bash
+export DB_USER=some_username
+export DB_PASSWORD=some_password
+export DB_HOST_POST=xxx.xxx.xxx.xxx:xxxx
+export DB_NAME=name_of_database
 ```

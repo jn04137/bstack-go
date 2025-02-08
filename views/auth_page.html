@@ -1,36 +1,52 @@
 {{ template "layout" . }}
 {{ define "content" }}
 <div class="flex justify-center w-full">
-	<div class="space-y-3">
+	<div class="space-y-5">
 		<h1 class="text-4xl">AuthPage</h1>
-		<form class="p-6 w-[330px] border rounded-lg space-y-3" action="/user/user_login" method="POST">
-			<h1 class="text-2xl">Login</h1>
-			<div class="flex flex-col">
-				<label>Username</label>
-				<input class="p-2 border rounded-lg" type="text" name="username"/>
-			</div>
-			<div class="flex flex-col">
-				<label>Password</label>
-				<input class="p-2 border rounded-lg" type="password" name="password"/>
-			</div>
-			<div class="flex justify-end">
-				<button class="bg-blue-600 w-32 py-1 rounded-lg text-white" type="submit">Login</button>
-			</div>
-		</form>
-		<form class="p-6 w-[330px] border rounded-lg space-y-3" action="/user/user_signup" method="POST">
-			<h1 class="text-2xl">Signup</h1>
-			<div class="flex flex-col">
-				<label>Username</label>
-				<input class="p-2 border rounded-lg" type="text" name="username"/>
-			</div>
-			<div class="flex flex-col">
-				<label>Password</label>
-				<input class="p-2 border rounded-lg" type="password" name="password"/>
-			</div>
-			<div class="flex justify-end">
-				<button class="bg-blue-600 w-32 py-1 rounded-lg text-white" type="submit">Signup</button>
-			</div>
-		</form>
+		{{ template "login_form" . }}
+		{{ template "signup_form" . }}
 	</div>
 </div>
+{{ end }}
+
+{{ define "login_form" }}
+<form class="p-6 w-[330px] bg-white/5 rounded-lg space-y-3" action="/user/user_login" method="POST">
+	<h1 class="text-2xl">Login</h1>
+	<div class="flex flex-col">
+		<label>Username</label>
+		<input class="p-2 border-b focus:outline-none" type="text" name="username"/>
+	</div>
+	<div class="flex flex-col">
+		<label>Password</label>
+		<input class="p-2 border-b focus:outline-none" type="password" name="password"/>
+	</div>
+	<div class="flex justify-end">
+		<button 
+			class="bg-blue-600 w-32 py-1 rounded-lg hover:cursor-pointer"
+			type="submit">
+			Login
+		</button>
+	</div>
+</form>
+{{ end }}
+
+{{ define "signup_form" }}
+<form class="p-6 w-[330px] bg-white/5 rounded-lg space-y-3" action="/user/user_signup" method="POST">
+	<h1 class="text-2xl">Signup</h1>
+	<div class="flex flex-col">
+		<label>Username</label>
+		<input class="p-2 border-b focus:outline-none" type="text" name="username"/>
+	</div>
+	<div class="flex flex-col">
+		<label>Password</label>
+		<input class="p-2 border-b focus:outline-none" type="password" name="password"/>
+	</div>
+	<div class="flex justify-end">
+		<button 
+			class="bg-blue-600 w-32 py-1 rounded-lg hover:cursor-pointer" 
+			type="submit">
+			Signup
+		</button>
+	</div>
+</form>
 {{ end }}

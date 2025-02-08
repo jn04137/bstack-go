@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"html/template"
+	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -18,14 +20,25 @@ func (userController *UserControllerStruct) getController() *chi.Mux {
 }
 
 func (userController *UserControllerStruct) authPage(w http.ResponseWriter, r *http.Request) {
-
+	templ, err := template.ParseFiles("./views/fragments/layout.html", "./views/auth_page.html")
+	if err != nil {
+		log.Printf("This is the err %v", err.Error())
+	}
+	templ.ExecuteTemplate(w, "auth_page.html", nil)
+	return
 }
 
 func (userController *UserControllerStruct) userLogin(w http.ResponseWriter, r *http.Request) {
+	userName := r.FormValue("username")
+	userPass := r.FormValue("password")
 
+	log.Printf("Username: %s, Password: %s", userName, userPass)
 }
 
 func (userController *UserControllerStruct) createUser(w http.ResponseWriter, r *http.Request) {
+	userName := r.FormValue("username")
+	userPass := r.FormValue("password")
 
+	log.Printf("Username: %s, Password: %s", userName, userPass)
 }
 

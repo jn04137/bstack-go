@@ -1,0 +1,53 @@
+{{ template "layout" . }}
+
+{{ define "content" }}
+<div class="flex justify-center w-full">
+	<div class="w-1/4 space-y-4">
+		<div class="flex justify-between items-center">
+			<h1 class="text-4xl font-bold">Teams</h1>
+			<button class="bg-white/30 rounded py-2 px-2 h-fit hover:cursor-pointer" onClick="createTeamButton()">Create Team</button>
+		</div>
+		{{ template "create_team_form" .}}
+		<div class="space-y-4">
+			{{ template "team_card" . }}
+			{{ template "team_card" . }}
+			{{ template "team_card" . }}
+		</div>
+	</div>
+</div>
+{{ end }}
+
+{{ define "team_card" }}
+<div class="bg-white/5 p-5 rounded">
+	<h2 class="text-2xl pb-3">Team Name</h2>
+	<p>
+		Some description of the team here. some lorem ipsum. La-dee-da. Something
+		something something
+	</p>
+</div>
+{{ end }}
+
+{{ define "create_team_form" }}
+<form class="space-y-2 rounded bg-white/5 p-4 hidden" id="createTeamForm" method="POST" action="/team/create">
+	<h2 class="text-2xl">Create Team</h2>
+	<div class="flex flex-col space-y-2">
+		<label class="text-lg">Team Name</label>
+		<input 
+			class="bg-white/10 border border-black rounded p-2 focus:outline-none"
+			placeholder="enter team name"
+			name="teamName" 
+			type="text"/>
+	</div>
+	<div class="flex flex-col space-y-2">
+		<label class="text-lg">Team Description</label>
+		<textarea 
+			placeholder="enter team description"
+			rows="5"
+			class="bg-white/10 border border-black rounded p-2 focus:outline-none"
+			name="teamDesc"></textarea>
+	</div>
+	<div class="flex justify-end">
+		<button class="rounded bg-white/10 px-2 py-0.5 hover:cursor-pointer">Create</button>
+	</div>
+</form>
+{{ end }}

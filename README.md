@@ -19,3 +19,15 @@ export DB_PASSWORD=some_password
 export DB_HOST_POST=xxx.xxx.xxx.xxx:xxxx
 export DB_NAME=name_of_database
 ```
+
+## Golang Migrate
+
+### Create SQL migration files
+```bash
+migrate create -ext sql -dir migrations/ -seq create_team_table.sql
+```
+
+### Migrate
+```bash
+migrate -path migrations/ -database="mysql://bstack_user:password@tcp(localhost:3306)/bstack_db" -verbose up
+```

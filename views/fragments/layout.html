@@ -7,7 +7,7 @@
 	</head>
 	<body class="flex flex-col justify-between min-h-screen text-white border-white border-lg">
 		{{ template "navbar" . }}
-		<div class="grow px-4 pt-8">
+		<div class="grow px-4 pt-8 text-white">
 			{{ block "content" . }}{{ end }}
 		</div>
 		{{ template "footer" . }}
@@ -16,15 +16,30 @@
 {{ end }}
 
 {{ define "navbar" }}
-<div class="px-4 py-1.5">
+<div class="flex justify-between px-4 py-1.5">
 	<div>
-		<h1 class="text-2xl font-bold">bstack</h1>
+		<h1 class="text-2xl font-bold"><a href="/">bstack</a></h1>
+	</div>
+	<div class="flex items-center space-x-4 text-lg font-semibold">
+		<a href="/user/players_page">Players</a>
+		<a href="/team/teams_page">Teams</a>
+		<a href="#">Events</a>
+		<a href="#">Forum</a>
+	</div>
+	<div class="text-lg">
+		{{ if .username }}
+			Logged in as {{ .username }}
+		{{ else }}
+			<a class="underline decoration-solid" href="/user/auth_page">
+				Login/Signup
+			</a>
+		{{ end }}
 	</div>
 </div>
 {{ end }}
 
 {{ define "footer" }}
-<footer class="border-t px-4 py-1">
+<footer class="py-1 px-4">
 	Created by Jonathan Nguyen
 </footer>
 {{ end }}

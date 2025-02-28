@@ -1,0 +1,49 @@
+{{ template "layout" . }}
+
+{{ define "content" }}
+<div class="flex justify-center">
+	<div class="w-1/2 space-y-2">
+		<h1 class="text-4xl">Your Profile</h1>
+		<div class="w-1/3 space-y-3">
+			{{ template "player_name_block" . }}
+			{{ template "player_desc_block" . }}
+			{{ template "player_desc_form" . }}
+		</div>
+	</div>
+</div>
+{{ end }}
+
+{{ define "player_name_block" }}
+<div class="p-3 rounded bg-white/5 text-xl">
+	<h2 class="text-2xl">Username</h2>
+	{{ .username }}
+</div>
+{{ end }}
+
+{{ define "player_desc_block" }}
+<div class="p-3 text-lg rounded bg-white/5">
+	<h2 class="text-2xl">Description</h2>
+	This is the user's description
+</div>
+{{ end }}
+
+{{ define "player_desc_form" }}
+<form class="p-3 bg-white/5 rounded space-y-3" action="/user/update_desc" method="POST">
+	<h1 class="text-2xl">Update Description</h1>
+	<div class="flex flex-col space-y-2">
+		<label class="text-lg">User Description</label>
+		<textarea 
+			placeholder="enter user description"
+			rows="5"
+			class="bg-white/10 border border-black rounded p-2 focus:outline-none"
+			name="userDesc"></textarea>
+	</div>
+	<div class="flex justify-end">
+		<button 
+			class="bg-blue-600 w-32 py-1 rounded-lg hover:cursor-pointer"
+			type="submit">
+			Login
+		</button>
+	</div>
+</form>
+{{ end }}

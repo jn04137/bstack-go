@@ -1,0 +1,24 @@
+{{ template "layout" . }}
+
+{{ define "content" }}
+<div class="flex justify-center w-full">
+	<div class="w-1/4 space-y-4">
+		<h1 class="text-4xl font-bold">Players</h1>
+		{{ range .players }}
+			{{ template "player_card" . }}
+		{{ end }}
+	</div>
+</div>
+{{ end }}
+
+{{ define "player_card" }}
+<div class="bg-white/5 p-3.5 rounded">
+	<a href="/{{ .NanoId }}">
+		<h2 class="text-2xl pb-2">{{ .Username }}</h2>
+		<p>
+			Some description of the player here. some lorem ipsum. La-dee-da. Something
+			something something
+		</p>
+	</a>
+</div>
+{{ end }}

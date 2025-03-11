@@ -20,6 +20,12 @@ func main() {
 	if dbConnErr != nil {
 		log.Fatalf("Couldn't make connection to database, %v", dbConnErr)
 	}
+
+	dbConnErr = dbConn.Ping()
+	if dbConnErr != nil {
+		log.Fatalf("ping to db failed, %v", dbConnErr)
+	}
+
 	controller := controllers.ControllerStruct{
 		DBDao: dbConn,
 	}

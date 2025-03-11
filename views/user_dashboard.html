@@ -2,48 +2,60 @@
 
 {{ define "content" }}
 <div class="flex justify-center">
-	<div class="w-1/2 space-y-2">
+	<div class="w-3/4 md:w-1/3 space-y-2">
 		<h1 class="text-4xl">Your Profile</h1>
-		<div class="w-1/3 space-y-3">
+		<div class="space-y-3">
 			{{ template "player_name_block" . }}
 			{{ template "player_desc_block" . }}
-			{{ template "player_desc_form" . }}
+			{{ template "quill-editor" . }}
 		</div>
 	</div>
+
+	<script src="/static/quill.js"></script>
+	<script>
+		const options = {
+			theme: 'snow'
+		}
+		const quill = new Quill('#quill-editor', options);
+		quill.on('text-change', (delta, oldDelta, source) => {
+			if(source == 'api') {
+				console.log('api change')
+			} else if(source =='user') {
+				console.log('user made this change')
+				const text = quill.getSemanticHTML()
+				console.log("this is the text: ", text)
+			}
+		})
+	</script>
 </div>
 {{ end }}
 
 {{ define "player_name_block" }}
-<div class="p-3 rounded bg-white/5 text-xl">
-	<h2 class="text-2xl">Username</h2>
+<div class="p-5 rounded bg-white/5 text-xl">
+	<h3 class="text-sm italic">Username</h3>
 	{{ .username }}
 </div>
 {{ end }}
 
 {{ define "player_desc_block" }}
-<div class="p-3 text-lg rounded bg-white/5">
-	<h2 class="text-2xl">Description</h2>
-	This is the user's description
+<div class="p-5 text-lg rounded bg-white/5">
+	<h2 class="text-sm italic">Description</h2>
+	{{ .player.Details }}
 </div>
 {{ end }}
 
-{{ define "player_desc_form" }}
-<form class="p-3 bg-white/5 rounded space-y-3" action="/user/update_desc" method="POST">
+{{ define "quill-editor" }}
+<div class="rounded bg-white/5 p-5 space-y-2">
 	<h1 class="text-2xl">Update Description</h1>
-	<div class="flex flex-col space-y-2">
-		<label class="text-lg">User Description</label>
-		<textarea 
-			placeholder="enter user description"
-			rows="5"
-			class="bg-white/10 border border-black rounded p-2 focus:outline-none"
-			name="userDesc"></textarea>
+	<div>
+		<div id="quill-editor"></div>
 	</div>
 	<div class="flex justify-end">
 		<button 
 			class="bg-blue-600 w-32 py-1 rounded-lg hover:cursor-pointer"
 			type="submit">
-			Login
+			Submit
 		</button>
 	</div>
-</form>
+</div>
 {{ end }}

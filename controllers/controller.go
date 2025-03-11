@@ -5,9 +5,10 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-	"wthunder/bstack/repositories"
 
 	"github.com/go-chi/chi/v5"
+
+	"wthunder/bstack/repositories"
 )
 
 type ControllerStruct struct {
@@ -18,7 +19,9 @@ func (controller *ControllerStruct) GetController() *chi.Mux {
 	userController := UserControllerStruct{
 		UserRepo: &repositories.UserRepositoryStruct{DBDao: controller.DBDao},
 	}
-	teamController := TeamControllerStruct{}
+	teamController := TeamControllerStruct{
+		TeamRepo: &repositories.TeamRepositoryStruct{DBBao: controller.DBDao},
+	}
 	staticController := StaticControllerStruct{}
 
 	r := chi.NewRouter()
@@ -32,7 +35,7 @@ func (controller *ControllerStruct) GetController() *chi.Mux {
 }
 
 func (controller *ControllerStruct) homePage(w http.ResponseWriter, r *http.Request) {
-	m := map[string]interface{} {
+	m := map[string]any {
 		"username": r.Context().Value("username"),
 		"nanoId": r.Context().Value("nanoId"),
 	}

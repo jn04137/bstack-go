@@ -3,3 +3,12 @@
 body {
 	background-color: #121212
 }
+
+.ql-snow .ql-stroke {
+	stroke: #FFF
+}
+
+.ql-snow .ql-picker {
+	stroke: #FFF;
+	color: #FFF;
+}

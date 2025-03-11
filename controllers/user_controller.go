@@ -24,6 +24,7 @@ func (controller *UserControllerStruct) getController() *chi.Mux {
 	r := chi.NewRouter()
 	r.Get("/auth_page", controller.authPage)
 	r.Get("/players_page", controller.playersPage)
+	r.Get("/player_page/{nanoId}", controller.viewPlayer)
 	r.Get("/player_dashboard", controller.userDashboard)
 
 	r.Post("/user_signup", controller.createUser)
@@ -35,7 +36,7 @@ func (controller *UserControllerStruct) getController() *chi.Mux {
 func (controller *UserControllerStruct) authPage(w http.ResponseWriter, r *http.Request) {
 	templ, err := template.ParseFiles("./views/fragments/layout.html", "./views/auth_page.html")
 	
-	m := map[string]interface{} {
+	m := map[string]any {
 		"username": r.Context().Value("username"),
 		"nanoId": r.Context().Value("nanoId"),
 	}
@@ -129,14 +130,12 @@ func (controller *UserControllerStruct) playersPage(w http.ResponseWriter, r *ht
 		log.Printf("This is the err %v", err.Error())
 	}
 	
-	players, err := repo.GetUsers()
+	players, err := repo.GetUsersWithDetails()
 	if err != nil {
 		log.Printf("This is the err %v", err.Error())
 	}
 
-	log.Printf("These are the players: %v", players)
-	
-	m := map[string]interface{} {
+	m := map[string]any {
 		"username": r.Context().Value("username"),
 		"nanoId": r.Context().Value("nanoId"),
 		"players": players,
@@ -145,11 +144,45 @@ func (controller *UserControllerStruct) playersPage(w http.ResponseWriter, r *ht
 	return
 }
 
-func (controller *UserControllerStruct) userDashboard(w http.ResponseWriter, r *http.Request) {
-	m := map[string]interface{} {
+func (controller *UserControllerStruct) viewPlayer(w http.ResponseWriter, r *http.Request) {
+	nanoIdParam := chi.URLParam(r, "nanoId")
+	repo := controller.UserRepo
+
+	player, err := repo.GetUser(nanoIdParam)
+	if err != nil {
+		log.Printf("This is the err %v", err.Error())
+	}
+	log.Printf("This is the player: %v", player)
+
+	m := map[string]any {
 		"username": r.Context().Value("username"),
 		"nanoId": r.Context().Value("nanoId"),
+		"player": player,
 	}
+
+
+	templ, err := template.ParseFiles("./views/fragments/layout.html", "./views/player_page.html")
+	if err != nil {
+		log.Printf("This is the err %v", err.Error())
+	}
+
+	templ.ExecuteTemplate(w, "player_page.html", m)
+	return
+}
+
+func (controller *UserControllerStruct) userDashboard(w http.ResponseWriter, r *http.Request) {
+	repo := controller.UserRepo
+	userNanoId := r.Context().Value("nanoId").(string)
+
+	player, err :=  repo.GetUser(userNanoId)
+
+	m := map[string]any {
+		"username": r.Context().Value("username"),
+		"nanoId": userNanoId,
+		"player": player,
+	}
+
+	log.Printf("This is the player: %v", player)
 	
 	templ, err := template.ParseFiles("./views/fragments/layout.html", "./views/user_dashboard.html")
 	if err != nil {

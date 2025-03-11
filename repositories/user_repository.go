@@ -10,6 +10,12 @@ type UserRepositoryStruct struct {
 	DBDao *sql.DB
 }
 
+type UserWithDetailsStruct struct {
+	NanoId string
+	Username string
+	Details string
+}
+
 func (userRepo *UserRepositoryStruct) CreateUser(player models.Player) error {
 	dbConn := userRepo.DBDao
 
@@ -34,10 +40,28 @@ func (userRepo *UserRepositoryStruct) GetUserWithPassHash(username string) (mode
 	return player, err
 }
 
-func (userRepo *UserRepositoryStruct) GetUsers() ([]models.Player, error) {
+func (userRepo *UserRepositoryStruct) GetUser(playerNanoId string) (UserWithDetailsStruct, error) {
+	dbConn := userRepo.DBDao
+
+	var err error
+	var player UserWithDetailsStruct
+	
+	query := "SELECT p.username,p.nano_id,pd.details FROM player AS p LEFT JOIN player_details AS pd ON p.id=pd.player WHERE p.nano_id=?"
+	row := dbConn.QueryRow(query, playerNanoId)
+	err = row.Scan(&player.Username, &player.NanoId, &player.Details)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return player, err
+		}
+	}
+
+	return player, err
+}
+
+func (userRepo *UserRepositoryStruct) GetUsersWithDetails() ([]models.Player, error) {
 	dbConn := userRepo.DBDao
 	
-	query := "SELECT username,nano_id FROM player;"
+	query := "SELECT player.username,player.nano_id,player_details.details FROM player LEFT JOIN player_details ON player_details.player=player.id;"
 	
 	var players []models.Player
 	rows, err := dbConn.Query(query)
@@ -46,7 +70,7 @@ func (userRepo *UserRepositoryStruct) GetUsers() ([]models.Player, error) {
 	}
 	for rows.Next() {
 		var player models.Player
-		rows.Scan(&player.Username, &player.NanoId)
+		rows.Scan(&player.Username, &player.NanoId, &player.Details)
 		players = append(players, player)
 	}
 

@@ -1,7 +1,10 @@
 package repositories
 
 import (
+	"log"
 	"database/sql"
+
+	"wthunder/bstack/models"
 )
 
 type TeamRepositoryStruct struct {
@@ -53,3 +56,34 @@ func (teamRepo *TeamRepositoryStruct) GetTeam(teamNanoId string) (TeamAndOwner, 
 
 	return team, err
 }
+
+func (teamRepo *TeamRepositoryStruct) GetPlayersOnTeam(teamNanoId string) ([]models.Player, error) {
+	dbConn := teamRepo.DBBao
+	var players []models.Player
+
+	// Get users from the database given the teamNanoId
+	query := `SELECT p.username FROM user_on_team as uot 
+		INNER JOIN team as t ON uot.team=t.id 
+		INNER JOIN player as p on uot.player=p.id 
+		WHERE t.nano_id=(?);`
+
+	rows, err := dbConn.Query(query, teamNanoId)
+	if err != nil {
+		return nil, err
+	}
+
+	log.Printf("These are the rows: %v", rows)
+
+	for rows.Next() {
+		var p models.Player
+		err = rows.Scan(&p.Username)
+		if err != nil {
+			return nil, err
+		}
+		players = append(players, p)
+	}
+
+	return players, nil
+}
+
+

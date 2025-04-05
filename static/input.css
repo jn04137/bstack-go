@@ -12,3 +12,7 @@ body {
 	stroke: #FFF;
 	color: #FFF;
 }
+
+.ql-snow .ql-editor {
+	padding: 0px;
+}

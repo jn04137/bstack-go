@@ -617,6 +617,9 @@
   .resize {
     resize: both;
   }
+  .columns-5 {
+    columns: 5;
+  }
   .flex-col {
     flex-direction: column;
   }
@@ -716,6 +719,9 @@
   .p-2 {
     padding: calc(var(--spacing) * 2);
   }
+  .p-2\.5 {
+    padding: calc(var(--spacing) * 2.5);
+  }
   .p-4 {
     padding: calc(var(--spacing) * 4);
   }
@@ -782,6 +788,10 @@
   .text-xs {
     font-size: var(--text-xs);
     line-height: var(--tw-leading, var(--text-xs--line-height));
+  }
+  .leading-6 {
+    --tw-leading: calc(var(--spacing) * 6);
+    line-height: calc(var(--spacing) * 6);
   }
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
@@ -862,6 +872,9 @@ body {
   stroke: #FFF;
   color: #FFF;
 }
+.ql-snow .ql-editor {
+  padding: 0px;
+}
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -927,6 +940,10 @@ body {
   syntax: "*";
   inherits: false;
   initial-value: solid;
+}
+@property --tw-leading {
+  syntax: "*";
+  inherits: false;
 }
 @property --tw-font-weight {
   syntax: "*";

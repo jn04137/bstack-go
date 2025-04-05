@@ -79,11 +79,14 @@ func (controller *TeamControllerStruct) viewTeam(w http.ResponseWriter, r *http.
 	if err != nil {
 		log.Printf("This is the err %v", err.Error())
 	}
+
+	players, err := repo.GetPlayersOnTeam(nanoIdParam)
 	
 	m := map[string]any {
 		"username": r.Context().Value("username"),
 		"nanoId": r.Context().Value("nanoId"),
 		"team": team,
+		"players": players,
 	}
 	
 	templ.ExecuteTemplate(w, "team_page.html", m)

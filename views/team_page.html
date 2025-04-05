@@ -11,6 +11,24 @@
 			<h3 class="text-sm italic">Description</h3>
 			<p>{{ .team.TeamDesc }}</p>
 		</div>
+		{{ template "players_section" . }}
 	</div>
+</div>
+{{ end }}
+
+{{ define "players_section" }}
+<div class="rounded p-5 bg-white/5">
+	<h1 class="text-sm italic pb-3">players</h1>
+	<div class="columns-5">
+		{{ range .players }}
+			{{ template "player_card" . }}
+		{{ end }}
+	</div>
+</div>
+{{ end }}
+
+{{ define "player_card" }}
+<div class="rounded p-2.5 w-full bg-white/5">
+	<h1 class="text-2xl">{{ .Username }}</h1>
 </div>
 {{ end }}
